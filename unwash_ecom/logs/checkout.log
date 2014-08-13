@@ -1,0 +1,8 @@
+INFO 2014-08-08 21:14:46,177 views Order #100001: beginning submission process for basket #1
+INFO 2014-08-08 21:14:46,178 views Order #100001: payment successful, placing order
+INFO 2014-08-08 21:14:46,225 mixins Order #100001 - sending ORDER_PLACED messages
+INFO 2014-08-08 21:14:46,226 utils Sending email to tyler@unwash.com
+INFO 2014-08-08 23:58:08,863 views Order #100002: beginning submission process for basket #2
+INFO 2014-08-08 23:58:08,865 views Order #100002: payment successful, placing order
+INFO 2014-08-08 23:58:08,909 mixins Order #100002 - sending ORDER_PLACED messages
+INFO 2014-08-08 23:58:08,910 utils Sending email to tyler@unwash.com

@@ -1,0 +1,1084 @@
+ERROR 2014-08-07 19:52:30,497 base Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 99, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/urlresolvers.py", line 337, in resolve
+    for pattern in self.url_patterns:
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/urlresolvers.py", line 365, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/urlresolvers.py", line 360, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/tylerkrebs/workspace/django_project/unwash/unwash_ecom/unwash_ecom/urls.py", line 11, in <module>
+    url(r'^admin/', include(admin.site.urls)),
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/admin/sites.py", line 253, in urls
+    return self.get_urls(), self.app_name, self.name
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/admin/sites.py", line 211, in get_urls
+    self.check_dependencies()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/admin/sites.py", line 156, in check_dependencies
+    raise ImproperlyConfigured("Put 'django.contrib.admin' in your "
+ImproperlyConfigured: Put 'django.contrib.admin' in your INSTALLED_APPS setting in order to use the admin application.
+ERROR 2014-08-07 20:54:35,790 base Internal Server Error: /accounts/login/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 112, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/transaction.py", line 371, in inner
+    return func(*args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/auth/decorators.py", line 22, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/oscar/apps/customer/views.py", line 159, in post
+    return self.validate_login_form()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/oscar/apps/customer/views.py", line 166, in validate_login_form
+    if form.is_valid():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/forms/forms.py", line 129, in is_valid
+    return self.is_bound and not bool(self.errors)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/forms/forms.py", line 121, in errors
+    self.full_clean()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/forms/forms.py", line 274, in full_clean
+    self._clean_form()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/forms/forms.py", line 300, in _clean_form
+    self.cleaned_data = self.clean()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/auth/forms.py", line 189, in clean
+    password=password)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/auth/__init__.py", line 47, in authenticate
+    for backend in get_backends():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/auth/__init__.py", line 22, in get_backends
+    backends.append(load_backend(backend_path))
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/auth/__init__.py", line 16, in load_backend
+    return import_by_path(path)()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/module_loading.py", line 31, in import_by_path
+    error_prefix, module_path, class_name))
+ImproperlyConfigured: Module "oscar.apps.customer.auth_backends" does not define a "EmailBackend" attribute/class
+ERROR 2014-08-07 21:29:16,249 base Internal Server Error: /admin/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 305, in render
+    return nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 156, in render
+    len_values = len(values)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 77, in __len__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 857, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 220, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 713, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 786, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 69, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 99, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 451, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such table: django_admin_log
+ERROR 2014-08-07 21:30:04,275 base Internal Server Error: /admin/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 305, in render
+    return nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 156, in render
+    len_values = len(values)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 77, in __len__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 857, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 220, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 713, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 786, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 69, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 99, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 451, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such table: django_admin_log
+ERROR 2014-08-07 21:30:27,500 base Internal Server Error: /admin/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 305, in render
+    return nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 156, in render
+    len_values = len(values)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 77, in __len__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 857, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 220, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 713, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 786, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 69, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 99, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 451, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such table: django_admin_log
+ERROR 2014-08-07 21:45:06,235 base Internal Server Error: /admin/catalogue/product/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 112, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/transaction.py", line 371, in inner
+    return func(*args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/admin/options.py", line 432, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/views/decorators/cache.py", line 52, in _wrapped_view_func
+    response = view_func(request, *args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/admin/sites.py", line 198, in inner
+    return view(request, *args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/decorators.py", line 29, in _wrapper
+    return bound_func(*args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/decorators.py", line 25, in bound_func
+    return func(self, *args2, **kwargs2)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/contrib/admin/options.py", line 1411, in changelist_view
+    'selection_note': _('0 of %(cnt)s selected') % {'cnt': len(cl.result_list)},
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 77, in __len__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 857, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 220, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 713, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 786, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 69, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 99, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 451, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such column: catalogue_product.structure
+ERROR 2014-08-07 21:47:40,438 base Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 155, in render
+    return self.render_template(self.template, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 137, in render_template
+    output = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 298, in render
+    match = condition.eval(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 867, in eval
+    return self.value.resolve(context, ignore_failures=True)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 585, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 735, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 771, in _resolve_lookup
+    current = getattr(current, bit)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/functional.py", line 214, in inner
+    return func(self._wrapped, *args)
+  File "/Users/tylerkrebs/workspace/django_project/unwash/unwash_ecom/oscar/apps/basket/abstract_models.py", line 364, in is_tax_known
+    return all([line.is_tax_known for line in self.all_lines()])
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 96, in __iter__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 857, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 220, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 713, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 786, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 69, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 99, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 451, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such column: catalogue_product.structure
+ERROR 2014-08-07 21:47:57,997 base Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 155, in render
+    return self.render_template(self.template, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 137, in render_template
+    output = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 298, in render
+    match = condition.eval(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 867, in eval
+    return self.value.resolve(context, ignore_failures=True)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 585, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 735, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 771, in _resolve_lookup
+    current = getattr(current, bit)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/functional.py", line 214, in inner
+    return func(self._wrapped, *args)
+  File "/Users/tylerkrebs/workspace/django_project/unwash/unwash_ecom/oscar/apps/basket/abstract_models.py", line 364, in is_tax_known
+    return all([line.is_tax_known for line in self.all_lines()])
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 96, in __iter__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 857, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 220, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 713, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 786, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 69, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 99, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 451, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such column: catalogue_product.structure
+ERROR 2014-08-07 22:12:44,996 base Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 103, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 80, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 104, in render
+    compiled_parent = self.get_parent(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 101, in get_parent
+    return get_template(parent)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader.py", line 144, in get_template
+    template, origin = find_template(template_name, dirs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader.py", line 132, in find_template
+    source, display_name = loader(name, dirs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader.py", line 44, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader.py", line 50, in load_template
+    template = get_template_from_string(source, origin, template_name)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader.py", line 156, in get_template_from_string
+    return Template(source, origin, name)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 132, in __init__
+    self.nodelist = compile_string(template_string, origin)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 162, in compile_string
+    return parser.parse()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 290, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 201, in do_extends
+    nodelist = parser.parse()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 290, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 1119, in load
+    (taglib, e))
+TemplateSyntaxError: 'compress' is not a valid tag library: ImportError raised loading compressor.templatetags.compress: cannot import name simplejson
+ERROR 2014-08-07 22:20:04,384 base Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 103, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 80, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 150, in render
+    return template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 305, in render
+    match = condition.eval(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 898, in eval
+    return self.value.resolve(context, ignore_failures=True)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 596, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 734, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 770, in _resolve_lookup
+    current = getattr(current, bit)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/functional.py", line 225, in inner
+    return func(self._wrapped, *args)
+  File "/Users/tylerkrebs/workspace/django_project/unwash/unwash_ecom/oscar/apps/basket/abstract_models.py", line 364, in is_tax_known
+    return all([line.is_tax_known for line in self.all_lines()])
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 141, in __iter__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 964, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 265, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 699, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 785, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/utils.py", line 81, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 94, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 485, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such column: catalogue_product.structure
+ERROR 2014-08-08 00:06:51,584 base Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 155, in render
+    return self.render_template(self.template, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 137, in render_template
+    output = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 298, in render
+    match = condition.eval(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 867, in eval
+    return self.value.resolve(context, ignore_failures=True)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 585, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 735, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 771, in _resolve_lookup
+    current = getattr(current, bit)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/utils/functional.py", line 214, in inner
+    return func(self._wrapped, *args)
+  File "/Users/tylerkrebs/workspace/django_project/unwash/unwash_ecom/oscar/apps/basket/abstract_models.py", line 364, in is_tax_known
+    return all([line.is_tax_known for line in self.all_lines()])
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 96, in __iter__
+    self._fetch_all()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 857, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/query.py", line 220, in iterator
+    for row in compiler.results_iter():
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 713, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 786, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 69, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/utils.py", line 99, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/util.py", line 53, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 451, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: no such column: catalogue_product.structure
+ERROR 2014-08-08 19:02:02,450 base Internal Server Error: /catalogue/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 305, in render
+    return nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 196, in render
+    nodelist.append(node.render(context))
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 1125, in render
+    return func(*resolved_args, **resolved_kwargs)
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/templatetags/product_tags.py", line 29, in render_product
+    return template_.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 53, in render
+    result = self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 53, in render
+    result = self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 504, in render
+    six.iteritems(self.extra_context)])
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 585, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 735, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 789, in _resolve_lookup
+    current = current()
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 561, in primary_image
+    'original': self.get_missing_image(),
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 540, in get_missing_image
+    return MissingProductImage()
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 1067, in __init__
+    self.symlink_missing_image(media_file_path)
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 1080, in symlink_missing_image
+    settings.MEDIA_ROOT))
+ImproperlyConfigured: Please copy/symlink the 'missing image' image at /Users/tylerkrebs/workspace/django_project/unwash_ecom/unwash_ecom/public/media/image_not_found.jpg into your MEDIA_ROOT at /Users/tylerkrebs/workspace/django_project/unwash_ecom/unwash_ecom/public/media. This exception was raised because Oscar was unable to symlink it for you.
+ERROR 2014-08-08 19:03:24,416 base Internal Server Error: /catalogue/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 305, in render
+    return nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 196, in render
+    nodelist.append(node.render(context))
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 1125, in render
+    return func(*resolved_args, **resolved_kwargs)
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/templatetags/product_tags.py", line 29, in render_product
+    return template_.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 53, in render
+    result = self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 53, in render
+    result = self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 504, in render
+    six.iteritems(self.extra_context)])
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 585, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 735, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 789, in _resolve_lookup
+    current = current()
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 561, in primary_image
+    'original': self.get_missing_image(),
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 540, in get_missing_image
+    return MissingProductImage()
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 1067, in __init__
+    self.symlink_missing_image(media_file_path)
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 1080, in symlink_missing_image
+    settings.MEDIA_ROOT))
+ImproperlyConfigured: Please copy/symlink the 'missing image' image at /Users/tylerkrebs/workspace/django_project/unwash_ecom/unwash_ecom/public/media/image_not_found.jpg into your MEDIA_ROOT at /Users/tylerkrebs/workspace/django_project/unwash_ecom/unwash_ecom/public/media. This exception was raised because Oscar was unable to symlink it for you.
+ERROR 2014-08-08 19:03:29,670 base Internal Server Error: /catalogue/
+Traceback (most recent call last):
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/core/handlers/base.py", line 137, in get_response
+    response = response.render()
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/response.py", line 82, in rendered_content
+    content = template.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 305, in render
+    return nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 196, in render
+    nodelist.append(node.render(context))
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 1125, in render
+    return func(*resolved_args, **resolved_kwargs)
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/templatetags/product_tags.py", line 29, in render_product
+    return template_.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 134, in _render
+    return self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 53, in render
+    result = self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/loader_tags.py", line 53, in render
+    result = self.nodelist.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/defaulttags.py", line 504, in render
+    six.iteritems(self.extra_context)])
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 585, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 735, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/tylerkrebs/.virtualenvs/unwash/lib/python2.7/site-packages/django/template/base.py", line 789, in _resolve_lookup
+    current = current()
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 561, in primary_image
+    'original': self.get_missing_image(),
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 540, in get_missing_image
+    return MissingProductImage()
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 1067, in __init__
+    self.symlink_missing_image(media_file_path)
+  File "/Users/tylerkrebs/workspace/django_project/unwash_ecom/oscar/apps/catalogue/abstract_models.py", line 1080, in symlink_missing_image
+    settings.MEDIA_ROOT))
+ImproperlyConfigured: Please copy/symlink the 'missing image' image at /Users/tylerkrebs/workspace/django_project/unwash_ecom/unwash_ecom/public/media/image_not_found.jpg into your MEDIA_ROOT at /Users/tylerkrebs/workspace/django_project/unwash_ecom/unwash_ecom/public/media. This exception was raised because Oscar was unable to symlink it for you.
