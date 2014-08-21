@@ -161,9 +161,13 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
         'ATOMIC_REQUESTS': True,
-
     }
 }
+
+import dj_database_url
+database_url = dj_database_url.config()
+if database_url:
+    DATABASES['default'] = database_url
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
