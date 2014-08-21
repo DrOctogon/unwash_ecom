@@ -1,5 +1,5 @@
 """
-Django settings for unwash project.
+Django settings for unwashproject.project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -39,7 +39,7 @@ LANGUAGES = (
     ('en-us', gettext_noop('American English')),
 )
 
-EMAIL_SUBJECT_PREFIX = '[Unwash]'
+EMAIL_SUBJECT_PREFIX = '[unwashproject.'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CACHES = {
@@ -112,6 +112,8 @@ INSTALLED_APPS = (
     'template_timings_panel',
     'south',
     'compressor',
+
+    'unwash',
 ) + tuple(get_core_apps(['oscar.apps.partner', 'oscar.apps.checkout',
                    'oscar.apps.shipping', #'oscar.apps.catalogue',
                    #'oscar.apps.dashboard', 'oscar.apps.promotions'
@@ -135,9 +137,9 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-ROOT_URLCONF = 'unwash.urls'
+ROOT_URLCONF = 'unwashproject.urls'
 
-WSGI_APPLICATION = 'unwash.wsgi.application'
+WSGI_APPLICATION = 'unwashproject.wsgi.application'
 
 
 # Database
