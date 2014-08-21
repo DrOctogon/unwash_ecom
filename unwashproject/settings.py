@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import sys
 
+from django.utils.translation import ugettext as _
+
 from oscar import get_core_apps
 from oscar import OSCAR_MAIN_TEMPLATE_DIR
 from oscar.defaults import *
@@ -244,6 +246,20 @@ from oscar.defaults import *
 OSCAR_SHOP_TAGLINE = 'The new clean.'
 OSCAR_DEFAULT_CURRENCY = 'USD'
 OSCAR_ALLOW_ANON_CHECKOUT = True
+
+OSCAR_DASHBOARD_NAVIGATION += [
+    {
+        'label': _('Store manager'),
+        'icon': 'icon-map-marker',
+        'children': [
+            {
+                'label': _('Stores'),
+                'url_name': 'stores-dashboard:store-list',
+            },
+        ],
+    },
+]
+
 
 # LESS/CSS/statics
 # ================
