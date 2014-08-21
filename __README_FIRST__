@@ -1,0 +1,7 @@
+Unwash README
+
+Install requirements:
+
+```
+pip install -r unwash/requirements.txt
+```
