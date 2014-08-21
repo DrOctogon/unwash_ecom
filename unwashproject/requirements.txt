@@ -13,9 +13,12 @@ django-debug-toolbar==1.0.1
 django-debug-toolbar-template-timings==0.6.4
 django-extensions==1.3.11
 django-haystack==2.2.0
+django-oscar-stores==0.6.1
+django-rosetta==0.7.4
 django-treebeard==2.0
 haystack==0.15
 phonenumbers==6.0.0a
+psycopg2==2.5.3
 pysolr==3.2.0
 python-ptrace==0.7
 pytz==2014.4
