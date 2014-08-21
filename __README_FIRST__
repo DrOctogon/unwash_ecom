@@ -41,3 +41,9 @@ In the project base directory, create a .env file to set the DATABASE_URL:
 ```
 echo 'export DATABASE_URL=postgis://docker:docker@192.168.59.103:15432/unwash' >> .env
 ```
+
+Load up countries:
+
+```
+python manage.py loaddata oscar/fixtures/countries.json
+```
