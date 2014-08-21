@@ -26,6 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'sites/sandbox'))
 
+from dotenv import get_dot_env
+get_dot_env(BASE_DIR)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
