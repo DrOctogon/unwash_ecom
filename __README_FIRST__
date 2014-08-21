@@ -3,5 +3,5 @@ Unwash README
 Install requirements:
 
 ```
-pip install -r unwash/requirements.txt
+pip install -r unwashproject/requirements.txt
 ```
