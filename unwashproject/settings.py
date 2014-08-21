@@ -123,10 +123,14 @@ INSTALLED_APPS = (
     'stores',
 
     'unwash',
-) + tuple(get_core_apps(['oscar.apps.partner', 'oscar.apps.checkout',
-                   'oscar.apps.shipping', #'oscar.apps.catalogue',
-                   #'oscar.apps.dashboard', 'oscar.apps.promotions'
-                   ]))
+) + tuple(get_core_apps([
+    'oscar.apps.partner',
+    'oscar.apps.checkout',
+    'oscar.apps.shipping',
+    #'oscar.apps.catalogue',
+    #'oscar.apps.dashboard',
+    #'oscar.apps.promotions'
+]))
 
 SITE_ID = 1
 MIDDLEWARE_CLASSES = (
