@@ -1,0 +1,102 @@
+{% load currency_filters %}
+{% load category_tags %}
+{% load i18n %}
+
+<div class="menu_block">
+    <!-- CONTAINER -->
+    <div class="container clearfix">
+        <!-- LOGO -->
+        <div class="logo">
+            <a href="index.html" ><img src="images/logo.png" alt="" /></a>
+        </div><!-- //LOGO -->
+        <!-- SEARCH FORM -->
+        <div class="top_search_form">
+            <a class="top_search_btn" href="javascript:void(0);" ><i class="fa fa-search"></i></a>
+            {% include "partials/search.html" %}
+        </div><!-- SEARCH FORM -->
+
+        <!-- SHOPPING BAG -->
+        <div class="shopping_bag">
+            <a class="shopping_bag_btn" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i><p>shopping bag</p><span>2</span></a>
+            <div class="cart">
+                <ul class="cart-items">
+                   {% trans "Basket" %}
+                    {% if not request.basket.is_empty %}
+                        {% if request.basket.is_tax_known %}
+                            {% blocktrans with total=request.basket.total_incl_tax|currency:request.basket.currency %}
+                                Total: {{ total }}
+                            {% endblocktrans %}
+                        {% else %}
+                            {% blocktrans with total=request.basket.total_excl_tax|currency:request.basket.currency %}
+                                Total: {{ total }}
+                            {% endblocktrans %}
+                        {% endif %}
+                    {% endif %}
+                </ul>
+                <div class="cart_total">
+                    <div class="clearfix"><span class="cart_subtotal">bag subtotal: <b>$110</b></span></div>
+                    <a class="btn active" href="checkout.html">Checkout</a>
+                    <a class="btn active" href="{% url 'basket:summary' %}">Summary</a>
+                </div>
+            </div>
+        </div><!-- //SHOPPING BAG -->
+
+        <!-- MENU -->
+        <ul class="navmenu center">
+            <li class="sub-menu first"><a href="javascript:void(0);" >Home</a></li>
+            <li class=""><a tabindex="-1" href="{% url 'catalogue:index' %}">{% trans "All products" %}</a></li>
+            <li class=""><a href="#" >Our Story</a></li>
+            <li class=""><a href="#" >Testimonials</a></li>
+            <li class=""><a href="#" >FAQ</a></li>
+            <li class="sub-menu"><a href="javascript:void(0);" >Blog</a></li>
+
+
+            {% block nav_dropdown_extra_items %}
+                <li><a href="{% url 'offer:list' %}">{% trans "Offers" %}</a></li>
+            {% endblock %}
+        </ul><!-- //MENU -->
+
+        <!-- Orginal Oscar Nav -->
+        <ul id="browse" class="nav">
+            <li class="dropdown active {% if expand_dropdown %}open{% endif %}">
+                <a href="#" class="dropdown-toggle" {% if not expand_dropdown %} data-toggle="dropdown"{% endif %}>
+                    {% trans "Browse store" %}
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" data-navigation="dropdown-menu">
+                    {% category_tree depth=2 as tree_categories %}
+                    <li><a tabindex="-1" href="{% url 'catalogue:index' %}">{% trans "All products" %}</a></li>
+                    {% if tree_categories %}
+                        <li class="divider"></li>
+                        {% for tree_category, info in tree_categories %}
+                            {% if info.has_children %}
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a>
+                                    <ul class="dropdown-menu">
+                                    {% else %}
+                                        <li><a tabindex="-1" href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a></li>
+                                    {% endif %}
+
+                                    {% for close in info.num_to_close %}
+                                        </ul></li>
+                                    {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                    <li class="divider"></li>
+                    {% block nav_dropdown_extra_items %}
+                        <li><a href="{% url 'offer:list' %}">{% trans "Offers" %}</a></li>
+                    {% endblock %}
+                </ul>
+            </li>
+        </ul>
+        <!-- End original Oscar nav -->
+            {% block nav_extra %}
+            {% endblock %}
+        </ul>
+    {% block nav_extra %}
+
+    {% endblock %}
+    </div><!-- //MENU BLOCK -->
+</div><!-- //CONTAINER -->
+
+

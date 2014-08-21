@@ -75,9 +75,11 @@ STATICFILES_FINDERS = (
 )
 
 TEMPLATE_DIRS = (
-    location('templates'),
+    #location('templates/unwash'),
+    location('templates/'),
     OSCAR_MAIN_TEMPLATE_DIR,
 )
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.request",
@@ -106,16 +108,32 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
-    'django_extensions',
     # Debug toolbar + extensions
+    'django_extensions',
     'debug_toolbar',
     'template_timings_panel',
     'south',
     'compressor',
+    # 'google_analytics', # https://github.com/clintecker/django-google-analytics
+    'geoposition', # https://github.com/philippbosch/django-geoposition
+    #'stores' #django-oscar-stores (https://github.com/tangentlabs/django-oscar-stores)
 ] + get_core_apps(['oscar.apps.partner', 'oscar.apps.checkout',
                    'oscar.apps.shipping', 'oscar.apps.catalogue',
-                   'oscar.apps.dashboard', 'oscar.apps.promotions'
+                   'oscar.apps.dashboard', 'oscar.apps.promotions',
+                   'oscar.apps.analytics', 'oscar.apps.wishlists',
+                   #'oscar.apps.stores'
                    ])
+
+GOOGLE_ANALYTICS_MODEL = True
+"""
+## Oscar-stores support
+from django.contrib.gis.measure import D
+STORES_GEODETIC_SRID = 3577
+# Maximal distance of 150 miles
+STORES_MAX_SEARCH_DISTANCE = D(mi=150)
+# Path to the GeoIP data (.dat file type) see: https://docs.djangoproject.com/en/dev/ref/contrib/gis/geoip/
+GEOIP_PATH = location()
+"""
 
 SITE_ID = 1
 MIDDLEWARE_CLASSES = (
