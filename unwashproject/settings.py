@@ -11,9 +11,12 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 import os
+import sys
+
 from oscar import get_core_apps
 from oscar import OSCAR_MAIN_TEMPLATE_DIR
 from oscar.defaults import *
+
 
 # Path helper
 location = lambda x: os.path.join(
@@ -21,6 +24,7 @@ location = lambda x: os.path.join(
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+sys.path.insert(0, os.path.join(BASE_DIR, 'sites/sandbox'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -133,7 +137,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'oscar.apps.customer.auth_backends.EmailBackend',
+    'oscar.apps.customer.auth_backends.Emailbackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
