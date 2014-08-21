@@ -120,6 +120,8 @@ INSTALLED_APPS = (
     'south',
     'compressor',
 
+    'stores',
+
     'unwash',
 ) + tuple(get_core_apps(['oscar.apps.partner', 'oscar.apps.checkout',
                    'oscar.apps.shipping', #'oscar.apps.catalogue',
