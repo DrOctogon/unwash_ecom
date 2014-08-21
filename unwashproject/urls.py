@@ -38,19 +38,16 @@ urlpatterns += i18n_patterns('',
     url(r'gateway/', include('apps.gateway.urls')),
     # Oscar's normal URLs
     url(r'', include(shop.urls)),
-)
-
-
-urlpatterns += patterns('',
-    # basic configuration for Oscar
-    url(r'', include(shop.urls)),
 
     # adds URLs for the dashboard store manager
     url(r'^dashboard/stores/', include(dashboard_app.urls)),
 
     # adds URLs for overview and detail pages
     url(r'^stores/', include(stores_app.urls)),
+)
 
+
+urlpatterns += patterns('',
     # adds internationalization URLs
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),
 )
