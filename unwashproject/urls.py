@@ -15,6 +15,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/en-us/'), name='english-site'),
+    url(r'^accounts/profile/$', RedirectView.as_view(url='/en-us/accounts/profile/'), name='english-profile'),
 
     # Include admin as convenience. It's unsupported and you should
     # use the dashboard
