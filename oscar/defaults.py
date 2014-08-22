@@ -1,8 +1,8 @@
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
 
-OSCAR_SHOP_NAME = 'Oscar'
-OSCAR_SHOP_TAGLINE = ''
+OSCAR_SHOP_NAME = 'UNWASH'
+OSCAR_SHOP_TAGLINE = 'The New Clean'
 OSCAR_HOMEPAGE = reverse_lazy('promotions:home')
 
 # Basket settings
@@ -17,7 +17,7 @@ OSCAR_RECENTLY_VIEWED_COOKIE_NAME = 'oscar_history'
 OSCAR_RECENTLY_VIEWED_PRODUCTS = 20
 
 # Currency
-OSCAR_DEFAULT_CURRENCY = 'GBP'
+OSCAR_DEFAULT_CURRENCY = 'USD'
 OSCAR_CURRENCY_LOCALE = 'en_GB'
 
 
@@ -35,7 +35,7 @@ OSCAR_REQUIRED_ADDRESS_FIELDS = ('first_name', 'last_name', 'line1',
                                  'line4', 'postcode', 'country')
 
 # Product list settings
-OSCAR_PRODUCTS_PER_PAGE = 20
+OSCAR_PRODUCTS_PER_PAGE = 5
 
 # Checkout
 OSCAR_ALLOW_ANON_CHECKOUT = False
@@ -58,7 +58,7 @@ OSCAR_PROMOTION_POSITIONS = (('page', 'Page'),
 
 # Reviews
 OSCAR_ALLOW_ANON_REVIEWS = True
-OSCAR_MODERATE_REVIEWS = False
+OSCAR_MODERATE_REVIEWS = True
 
 # Accounts
 OSCAR_ACCOUNTS_REDIRECT_URL = 'customer:profile-view'
@@ -73,7 +73,7 @@ OSCAR_EAGER_ALERTS = True
 
 # Registration
 OSCAR_SEND_REGISTRATION_EMAIL = True
-OSCAR_FROM_EMAIL = 'oscar@example.com'
+OSCAR_FROM_EMAIL = 'auto-confirm@unwash.com'
 
 # Offers
 OSCAR_OFFER_BLACKLIST_PRODUCT = None
