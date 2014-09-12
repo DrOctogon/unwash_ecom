@@ -16,7 +16,6 @@ django-haystack==2.2.1
 django-oscar-stores==0.6.1
 django-rosetta==0.7.4
 django-treebeard==2.0
-haystack==0.15
 phonenumbers==6.0.0a
 psycopg2==2.5.3
 pysolr==3.2.0
