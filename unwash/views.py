@@ -5,6 +5,9 @@ from stores.views import StoreListView, Store
 class SalonListView(StoreListView):
     template_name = 'unwash/salon.html'
 
+    def get_title(self):
+        return 'Select your favorite salon'
+
 
 class SalonSelectView(DetailView):
     def get(self, request, *args, **kwargs):
