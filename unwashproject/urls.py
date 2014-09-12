@@ -53,6 +53,15 @@ urlpatterns += patterns('',
 )
 
 
+# unwash URLs
+urlpatterns += patterns(
+    '',
+
+    # adds internationalization URLs
+    url(r'', include('unwash.urls', namespace='unwash')),
+)
+
+
 if settings.DEBUG:
     import debug_toolbar
 
