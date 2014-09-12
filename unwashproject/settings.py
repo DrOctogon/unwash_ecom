@@ -121,6 +121,8 @@ INSTALLED_APPS = (
     'compressor',
 
     'stores',
+
+    'unwash',
 ) + tuple(get_core_apps([
     'oscar.apps.partner',
     'oscar.apps.checkout',
