@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import sys
 
-from django.utils.translation import ugettext as _
-
 from oscar import get_core_apps
 from oscar import OSCAR_MAIN_TEMPLATE_DIR
 from oscar.defaults import *
@@ -249,11 +247,11 @@ OSCAR_ALLOW_ANON_CHECKOUT = True
 
 OSCAR_DASHBOARD_NAVIGATION += [
     {
-        'label': _('Store manager'),
+        'label': 'Store manager',
         'icon': 'icon-map-marker',
         'children': [
             {
-                'label': _('Stores'),
+                'label': 'Stores',
                 'url_name': 'stores-dashboard:store-list',
             },
         ],
