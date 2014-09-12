@@ -3,5 +3,47 @@ Unwash README
 Install requirements:
 
 ```
-pip install -r unwash/requirements.txt
+pip install -r unwashproject/requirements.txt
+```
+
+Get the postgis docker repo from:
+
+https://github.com/rca/docker-postgis
+
+Build it:
+
+```
+docker build -t gis .
+```
+
+When using boot2docker, create a volume for the container:
+
+```
+boot2docker ssh 'sudo mkdir -p /srv/postgis'
+```
+
+Fire up a container, note the host port is fixed to 15432:
+
+```
+GIS=$(docker run -d -p 15432:5432 -v /srv/postgis:/var/lib/postgresql -e USERNAME=docker -e PASS=docker gis)
+```
+
+Connect to the database and setup GIS:
+
+```
+psql -h 192.168.59.103 -p 15432 -U docker -W postgres
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+```
+
+In the project base directory, create a .env file to set the DATABASE_URL:
+
+```
+echo 'export DATABASE_URL=postgis://docker:docker@192.168.59.103:15432/unwash' >> .env
+```
+
+Load up countries:
+
+```
+python manage.py loaddata oscar/fixtures/countries.json
 ```

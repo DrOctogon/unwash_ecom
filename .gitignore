@@ -51,3 +51,5 @@ sites/puppet/modules/
 
 # sqlite3
 db.sqlite3
+
+/unwashproject/public/static/

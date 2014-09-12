@@ -27,7 +27,7 @@ sandbox: install
 	sites/sandbox/manage.py update_index catalogue
 
 geoip:
-	wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+	curl -O http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
 	gunzip GeoLiteCity.dat.gz
 	mv GeoLiteCity.dat sites/demo/geoip
 

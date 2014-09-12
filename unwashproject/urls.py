@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.conf.urls import include, patterns, url
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
@@ -7,6 +7,9 @@ from django.views.generic.base import RedirectView
 
 from oscar.app import shop
 from oscar.views import handler500, handler404, handler403  # noqa
+
+from stores.app import application as stores_app
+from stores.dashboard.app import application as dashboard_app
 
 from apps.sitemaps import base_sitemaps
 
@@ -35,7 +38,20 @@ urlpatterns += i18n_patterns('',
     url(r'gateway/', include('apps.gateway.urls')),
     # Oscar's normal URLs
     url(r'', include(shop.urls)),
+
+    # adds URLs for the dashboard store manager
+    url(r'^dashboard/stores/', include(dashboard_app.urls)),
+
+    # adds URLs for overview and detail pages
+    url(r'^stores/', include(stores_app.urls)),
 )
+
+
+urlpatterns += patterns('',
+    # adds internationalization URLs
+    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),
+)
+
 
 if settings.DEBUG:
     import debug_toolbar

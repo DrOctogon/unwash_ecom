@@ -26,6 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'sites/sandbox'))
 
+from dotenv import get_dot_env
+get_dot_env(BASE_DIR)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -117,11 +120,15 @@ INSTALLED_APPS = (
     'south',
     'compressor',
 
-    'unwash',
-) + tuple(get_core_apps(['oscar.apps.partner', 'oscar.apps.checkout',
-                   'oscar.apps.shipping', #'oscar.apps.catalogue',
-                   #'oscar.apps.dashboard', 'oscar.apps.promotions'
-                   ]))
+    'stores',
+) + tuple(get_core_apps([
+    'oscar.apps.partner',
+    'oscar.apps.checkout',
+    'oscar.apps.shipping',
+    #'oscar.apps.catalogue',
+    #'oscar.apps.dashboard',
+    #'oscar.apps.promotions'
+]))
 
 SITE_ID = 1
 MIDDLEWARE_CLASSES = (
@@ -158,9 +165,13 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
         'ATOMIC_REQUESTS': True,
-
     }
 }
+
+import dj_database_url
+database_url = dj_database_url.config()
+if database_url:
+    DATABASES['default'] = database_url
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -231,6 +242,20 @@ from oscar.defaults import *
 OSCAR_SHOP_TAGLINE = 'The new clean.'
 OSCAR_DEFAULT_CURRENCY = 'USD'
 OSCAR_ALLOW_ANON_CHECKOUT = True
+
+OSCAR_DASHBOARD_NAVIGATION += [
+    {
+        'label': 'Store manager',
+        'icon': 'icon-map-marker',
+        'children': [
+            {
+                'label': 'Stores',
+                'url_name': 'stores-dashboard:store-list',
+            },
+        ],
+    },
+]
+
 
 # LESS/CSS/statics
 # ================
