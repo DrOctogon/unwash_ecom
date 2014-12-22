@@ -155,7 +155,7 @@ WSGI_APPLICATION = 'unwashproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
+# Default DB, if one is not set within the environment file.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -172,19 +172,6 @@ import dj_database_url
 database_url = dj_database_url.config()
 if database_url:
     DATABASES['default'] = database_url
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -238,10 +225,71 @@ from oscar.defaults import *
 
 # Meta
 # ====
-
-OSCAR_SHOP_TAGLINE = 'The new clean.'
-OSCAR_DEFAULT_CURRENCY = 'USD'
+OSCAR_SHOP_NAME = 'UNWASH'
+OSCAR_SHOP_TAGLINE = '- The new clean'
+OSCAR_HOMEPAGE = reverse_lazy('promotions:home')
 OSCAR_ALLOW_ANON_CHECKOUT = True
+# Currency
+OSCAR_DEFAULT_CURRENCY = 'USD'
+OSCAR_CURRENCY_LOCALE = 'en_US'
+# Reviews
+OSCAR_ALLOW_ANON_REVIEWS = False
+OSCAR_MODERATE_REVIEWS = False
+# Registration
+OSCAR_SEND_REGISTRATION_EMAIL = True
+OSCAR_FROM_EMAIL = 'a@a.com'
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.htmlLANGUAGE_CODE = 'en-us'
+LANGUAGES = (
+    ('en-us', 'English'),
+)
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.6/topics/i18n/
+LANGUAGE_CODE = 'en-us'
+
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# On Unix systems, a value of None will cause Django to use the same
+# timezone as the operating system.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
+TIME_ZONE = 'US/Pacific'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+# Address settings
+OSCAR_REQUIRED_ADDRESS_FIELDS = ('first_name', 'last_name', 'line1',
+                                 'line4', 'postcode', 'country')
+
+# Product list settings
+OSCAR_PRODUCTS_PER_PAGE = 20
+
+# Checkout
+OSCAR_ALLOW_ANON_CHECKOUT = False
+
+# Partners
+OSCAR_PARTNER_WRAPPERS = {}
+
+# Promotions
+COUNTDOWN, LIST, SINGLE_PRODUCT, TABBED_BLOCK = (
+    'Countdown', 'List', 'SingleProduct', 'TabbedBlock')
+OSCAR_PROMOTION_MERCHANDISING_BLOCK_TYPES = (
+    (COUNTDOWN, "Vertical list"),
+    (LIST, "Horizontal list"),
+    (TABBED_BLOCK, "Tabbed block"),
+    (SINGLE_PRODUCT, "Single product"),
+)
+OSCAR_PROMOTION_POSITIONS = (('page', 'Page'),
+                             ('right', 'Right-hand sidebar'),
+                             ('left', 'Left-hand sidebar'))
+
+
+# Offers
+OSCAR_OFFER_BLACKLIST_PRODUCT = None
 
 OSCAR_DASHBOARD_NAVIGATION += [
     {
