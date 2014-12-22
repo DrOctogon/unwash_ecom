@@ -1,49 +1,73 @@
-Unwash README
+# Unwash README
+---
 
-Install requirements:
-
+## Install requirements:
 ```
 pip install -r unwashproject/requirements.txt
 ```
 
-Get the postgis docker repo from:
 
-https://github.com/rca/docker-postgis
+## Other dependencies:
+Install GDAL from:
+```
+wget http://www.kyngchaos.com/files/software/frameworks/GDAL_Complete-1.11.dmg
+```
 
-Build it:
 
+## Get the postgis docker repo from:
+```
+git clonehttps://github.com/rca/docker-postgis
+```
+
+
+## Build it:
 ```
 docker build -t gis .
 ```
 
-When using boot2docker, create a volume for the container:
 
+## When using boot2docker, create a volume for the container:
 ```
-boot2docker ssh 'sudo mkdir -p /srv/postgis'
-```
-
-Fire up a container, note the host port is fixed to 15432:
-
-```
-GIS=$(docker run -d -p 15432:5432 -v /srv/postgis:/var/lib/postgresql -e USERNAME=docker -e PASS=docker gis)
+boot2docker ssh 'sudo mkdir -p /srv/postgis/var/lib/postgresql'
 ```
 
-Connect to the database and setup GIS:
 
+## Fire up a container, note the host port is fixed to 15432:
 ```
-psql -h 192.168.59.103 -p 15432 -U docker -W postgres
+GIS=$(docker run -d -p 15432:5432 -v /srv/postgis/var/lib/postgresql:/var/lib/postgresql -e USERNAME=docker -e PASS=docker gis)
+```
+
+
+Logging into the PostgreSQL instance (pass: docker):
+```
+psql -h 192.168.59.103 -p 15432 -U docker -W postgres;
 CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
 ```
 
-In the project base directory, create a .env file to set the DATABASE_URL:
 
+## In the project base directory, create a .env file to set the DATABASE_URL:
 ```
 echo 'export DATABASE_URL=postgis://docker:docker@192.168.59.103:15432/unwash' >> .env
 ```
 
-Load up countries:
+## Sync database:
+```
+python manage.py syncdb --noinput
+```
 
+
+## Migrate data:
+```
+python manage.py migrate
+```
+
+
+##Load up countries:
 ```
 python manage.py loaddata oscar/fixtures/countries.json
 ```
+
+Oscar sets the default store location to GB, the store locale must be changed within the DB to US
+for the checkout process to work properly. (RCA has written a south migration to automate this change)
+
