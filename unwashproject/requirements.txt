@@ -19,6 +19,7 @@ django-treebeard==2.0
 haystack==0.15
 phonenumbers==6.0.0a
 psycopg2==2.5.3
+pycountry==1.8
 pysolr==3.2.0
 python-ptrace==0.7
 pytz==2014.4
