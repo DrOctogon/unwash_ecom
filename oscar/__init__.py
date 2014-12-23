@@ -1,9 +1,8 @@
 import os
 
-# Use 'final' as the 4th element to indicate
-# a full release
+# Use 'final' or 'beta' as the 4th element to indicate release type.
 
-VERSION = (0, 7, 2, 'final')
+VERSION = (1, 0, 1, 'final', 1)
 
 
 def get_short_version():
@@ -64,6 +63,7 @@ OSCAR_CORE_APPS = [
     'haystack',
     'treebeard',
     'sorl.thumbnail',
+    'django_tables2',
 ]
 
 

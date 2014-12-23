@@ -3,12 +3,16 @@
 
 body {
     background-color: @grayLighter;
+    padding-bottom: 50px;
 }
 .container-fluid {
     padding:0px;
     margin:0px auto;
     // Here is the page width: editable in page/mixins.less
     max-width:@oscarpagewidth;
+}
+.row-fluid {
+    .box-sizing(border-box);
 }
 
 // The page container

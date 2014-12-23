@@ -6,23 +6,28 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Sum
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _, pgettext_lazy
 from django.utils.datastructures import SortedDict
 
+from oscar.core.utils import get_default_currency
 from oscar.core.compat import AUTH_USER_MODEL
 from oscar.models.fields import AutoSlugField
 from . import exceptions
 
 
+@python_2_unicode_compatible
 class AbstractOrder(models.Model):
     """
     The main order model
     """
-    number = models.CharField(_("Order number"), max_length=128, db_index=True)
+    number = models.CharField(
+        _("Order number"), max_length=128, db_index=True, unique=True)
 
     # We track the site that each order is placed within
-    site = models.ForeignKey('sites.Site', verbose_name=_("Site"), null=True,
-                             on_delete=models.SET_NULL)
+    site = models.ForeignKey(
+        'sites.Site', verbose_name=_("Site"), null=True,
+        on_delete=models.SET_NULL)
 
     basket = models.ForeignKey(
         'basket.Basket', verbose_name=_("Basket"),
@@ -44,7 +49,7 @@ class AbstractOrder(models.Model):
     # prices of the associated lines, but in some circumstances extra
     # order-level charges are added and so we need to store it separately
     currency = models.CharField(
-        _("Currency"), max_length=12, default=settings.OSCAR_DEFAULT_CURRENCY)
+        _("Currency"), max_length=12, default=get_default_currency)
     total_incl_tax = models.DecimalField(
         _("Order total (inc. tax)"), decimal_places=2, max_digits=12)
     total_excl_tax = models.DecimalField(
@@ -93,7 +98,7 @@ class AbstractOrder(models.Model):
         """
         Return all possible statuses for an order
         """
-        return cls.pipeline.keys()
+        return list(cls.pipeline.keys())
 
     def available_statuses(self):
         """
@@ -265,11 +270,12 @@ class AbstractOrder(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         ordering = ['-date_placed']
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
 
-    def __unicode__(self):
+    def __str__(self):
         return u"#%s" % (self.number,)
 
     def verification_hash(self):
@@ -301,6 +307,7 @@ class AbstractOrder(models.Model):
             category=AbstractOrderDiscount.DEFERRED)
 
 
+@python_2_unicode_compatible
 class AbstractOrderNote(models.Model):
     """
     A note against an order.
@@ -329,10 +336,11 @@ class AbstractOrderNote(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Order Note")
         verbose_name_plural = _("Order Notes")
 
-    def __unicode__(self):
+    def __str__(self):
         return u"'%s' (%s)" % (self.message[0:50], self.user)
 
     def is_editable(self):
@@ -342,6 +350,7 @@ class AbstractOrderNote(models.Model):
         return delta.seconds < self.editable_lifetime
 
 
+@python_2_unicode_compatible
 class AbstractCommunicationEvent(models.Model):
     """
     An order-level event involving a communication to the customer, such
@@ -356,11 +365,12 @@ class AbstractCommunicationEvent(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Communication Event")
         verbose_name_plural = _("Communication Events")
         ordering = ['-date_created']
 
-    def __unicode__(self):
+    def __str__(self):
         return _("'%(type)s' event for order #%(number)s") \
             % {'type': self.event_type.name, 'number': self.order.number}
 
@@ -368,24 +378,21 @@ class AbstractCommunicationEvent(models.Model):
 # LINES
 
 
+@python_2_unicode_compatible
 class AbstractLine(models.Model):
     """
-    A order line (basically a product and a quantity)
-
-    Not using a line model as it's difficult to capture and payment
-    information when it splits across a line.
+    An order line
     """
     order = models.ForeignKey(
         'order.Order', related_name='lines', verbose_name=_("Order"))
 
-    #: We keep a link to the stockrecord used for this line which allows us to
-    #: update stocklevels when it ships
-    stockrecord = models.ForeignKey(
-        'partner.StockRecord', on_delete=models.SET_NULL, blank=True,
-        null=True, verbose_name=_("Stock record"))
-    # We store the partner, their SKU and the title for cases where the product
-    # has been deleted from the catalogue.  We also store the partner name in
-    # case the partner gets deleted at a later date.
+    # PARTNER INFORMATION
+    # -------------------
+    # We store the partner and various detail their SKU and the title for cases
+    # where the product has been deleted from the catalogue (but we still need
+    # the data for reporting).  We also store the partner name in case the
+    # partner gets deleted at a later date.
+
     partner = models.ForeignKey(
         'partner.Partner', related_name='order_lines', blank=True, null=True,
         on_delete=models.SET_NULL, verbose_name=_("Partner"))
@@ -393,17 +400,39 @@ class AbstractLine(models.Model):
         _("Partner name"), max_length=128, blank=True)
     partner_sku = models.CharField(_("Partner SKU"), max_length=128)
 
-    title = models.CharField(_("Title"), max_length=255)
-    # UPC can be null because it's usually set as the product's UPC, and that
-    # can be null as well
-    upc = models.CharField(_("UPC"), max_length=128, blank=True, null=True)
+    # A line reference is the ID that a partner uses to represent this
+    # particular line (it's not the same as a SKU).
+    partner_line_reference = models.CharField(
+        _("Partner reference"), max_length=128, blank=True,
+        help_text=_("This is the item number that the partner uses "
+                    "within their system"))
+    partner_line_notes = models.TextField(
+        _("Partner Notes"), blank=True)
+
+    # We keep a link to the stockrecord used for this line which allows us to
+    # update stocklevels when it ships
+    stockrecord = models.ForeignKey(
+        'partner.StockRecord', on_delete=models.SET_NULL, blank=True,
+        null=True, verbose_name=_("Stock record"))
+
+    # PRODUCT INFORMATION
+    # -------------------
 
     # We don't want any hard links between orders and the products table so we
     # allow this link to be NULLable.
     product = models.ForeignKey(
         'catalogue.Product', on_delete=models.SET_NULL, blank=True, null=True,
         verbose_name=_("Product"))
+    title = models.CharField(
+        pgettext_lazy(u"Product title", u"Title"), max_length=255)
+    # UPC can be null because it's usually set as the product's UPC, and that
+    # can be null as well
+    upc = models.CharField(_("UPC"), max_length=128, blank=True, null=True)
+
     quantity = models.PositiveIntegerField(_("Quantity"), default=1)
+
+    # REPORTING INFORMATION
+    # ---------------------
 
     # Price information (these fields are actually redundant as the information
     # can be calculated from the LinePrice models
@@ -420,7 +449,6 @@ class AbstractLine(models.Model):
         _("Price before discounts (excl. tax)"),
         decimal_places=2, max_digits=12)
 
-    # REPORTING FIELDS
     # Cost price (the price charged by the fulfilment partner for this
     # product).
     unit_cost_price = models.DecimalField(
@@ -438,14 +466,6 @@ class AbstractLine(models.Model):
         _("Unit Retail Price"), decimal_places=2, max_digits=12,
         blank=True, null=True)
 
-    # Partner information
-    partner_line_reference = models.CharField(
-        _("Partner reference"), max_length=128, blank=True,
-        help_text=_("This is the item number that the partner uses "
-                    "within their system"))
-    partner_line_notes = models.TextField(
-        _("Partner Notes"), blank=True)
-
     # Partners often want to assign some status to each line to help with their
     # own business processes.
     status = models.CharField(_("Status"), max_length=255, blank=True)
@@ -461,10 +481,11 @@ class AbstractLine(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Order Line")
         verbose_name_plural = _("Order Lines")
 
-    def __unicode__(self):
+    def __str__(self):
         if self.product:
             title = self.product.title
         else:
@@ -477,7 +498,7 @@ class AbstractLine(models.Model):
         """
         Return all possible statuses for an order line
         """
-        return cls.pipeline.keys()
+        return list(cls.pipeline.keys())
 
     def available_statuses(self):
         """
@@ -602,6 +623,15 @@ class AbstractLine(models.Model):
             quantity = self.quantity
         return self.shipping_event_quantity(event_type) == quantity
 
+    def get_event_quantity(self, event):
+        """
+        Fetches the ShippingEventQuantity instance for this line
+
+        Exists as a separate method so it can be overridden to avoid
+        the DB query that's caused by get().
+        """
+        return event.line_quantities.get(line=self)
+
     @property
     def shipping_event_breakdown(self):
         """
@@ -611,7 +641,7 @@ class AbstractLine(models.Model):
         for event in self.shipping_events.all():
             event_type = event.event_type
             event_name = event_type.name
-            event_quantity = event.line_quantities.get(line=self).quantity
+            event_quantity = self.get_event_quantity(event).quantity
             if event_name in status_map:
                 status_map[event_name]['quantity'] += event_quantity
             else:
@@ -626,7 +656,9 @@ class AbstractLine(models.Model):
 
     def is_payment_event_permitted(self, event_type, quantity):
         """
-        Test whether a payment event with the given quantity is permitted
+        Test whether a payment event with the given quantity is permitted.
+
+        Allow each payment event type to occur only once per quantity.
         """
         current_qty = self.payment_event_quantity(event_type)
         return (current_qty + quantity) <= self.quantity
@@ -671,6 +703,7 @@ class AbstractLine(models.Model):
         return True, None
 
 
+@python_2_unicode_compatible
 class AbstractLineAttribute(models.Model):
     """
     An attribute of a line
@@ -686,13 +719,15 @@ class AbstractLineAttribute(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Line Attribute")
         verbose_name_plural = _("Line Attributes")
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s = %s" % (self.type, self.value)
 
 
+@python_2_unicode_compatible
 class AbstractLinePrice(models.Model):
     """
     For tracking the prices paid for each unit within a line.
@@ -717,11 +752,12 @@ class AbstractLinePrice(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         ordering = ('id',)
         verbose_name = _("Line Price")
         verbose_name_plural = _("Line Prices")
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Line '%(number)s' (quantity %(qty)d) price %(price)s") % {
             'number': self.line,
             'qty': self.quantity,
@@ -731,6 +767,7 @@ class AbstractLinePrice(models.Model):
 # PAYMENT EVENTS
 
 
+@python_2_unicode_compatible
 class AbstractPaymentEventType(models.Model):
     """
     Payment event types are things like 'Paid', 'Failed', 'Refunded'.
@@ -743,14 +780,16 @@ class AbstractPaymentEventType(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Payment Event Type")
         verbose_name_plural = _("Payment Event Types")
         ordering = ('name', )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
+@python_2_unicode_compatible
 class AbstractPaymentEvent(models.Model):
     """
     A payment event for an order
@@ -784,11 +823,12 @@ class AbstractPaymentEvent(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Payment Event")
         verbose_name_plural = _("Payment Events")
         ordering = ['-date_created']
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Payment event for order %s") % self.order
 
     def num_affected_lines(self):
@@ -808,13 +848,16 @@ class PaymentEventQuantity(models.Model):
     quantity = models.PositiveIntegerField(_("Quantity"))
 
     class Meta:
+        app_label = 'order'
         verbose_name = _("Payment Event Quantity")
         verbose_name_plural = _("Payment Event Quantities")
+        unique_together = ('event', 'line')
 
 
 # SHIPPING EVENTS
 
 
+@python_2_unicode_compatible
 class AbstractShippingEvent(models.Model):
     """
     An event is something which happens to a group of lines such as
@@ -835,11 +878,12 @@ class AbstractShippingEvent(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Shipping Event")
         verbose_name_plural = _("Shipping Events")
         ordering = ['-date_created']
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Order #%(number)s, type %(type)s") % {
             'number': self.order.number,
             'type': self.event_type}
@@ -848,6 +892,7 @@ class AbstractShippingEvent(models.Model):
         return self.lines.count()
 
 
+@python_2_unicode_compatible
 class ShippingEventQuantity(models.Model):
     """
     A "through" model linking lines to shipping events.
@@ -864,8 +909,10 @@ class ShippingEventQuantity(models.Model):
     quantity = models.PositiveIntegerField(_("Quantity"))
 
     class Meta:
+        app_label = 'order'
         verbose_name = _("Shipping Event Quantity")
         verbose_name_plural = _("Shipping Event Quantities")
+        unique_together = ('event', 'line')
 
     def save(self, *args, **kwargs):
         # Default quantity to full quantity of line
@@ -877,12 +924,13 @@ class ShippingEventQuantity(models.Model):
             raise exceptions.InvalidShippingEvent
         super(ShippingEventQuantity, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return _("%(product)s - quantity %(qty)d") % {
             'product': self.line.product,
             'qty': self.quantity}
 
 
+@python_2_unicode_compatible
 class AbstractShippingEventType(models.Model):
     """
     A type of shipping/fulfillment event
@@ -897,17 +945,19 @@ class AbstractShippingEventType(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Shipping Event Type")
         verbose_name_plural = _("Shipping Event Types")
         ordering = ('name', )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
 # DISCOUNTS
 
 
+@python_2_unicode_compatible
 class AbstractOrderDiscount(models.Model):
     """
     A discount against an order.
@@ -964,6 +1014,7 @@ class AbstractOrderDiscount(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'order'
         verbose_name = _("Order Discount")
         verbose_name_plural = _("Order Discounts")
 
@@ -980,7 +1031,7 @@ class AbstractOrderDiscount(models.Model):
 
         super(AbstractOrderDiscount, self).save(**kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Discount of %(amount)r from order %(order)s") % {
             'amount': self.amount, 'order': self.order}
 

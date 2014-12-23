@@ -1,14 +1,14 @@
-from six.moves import http_client
+from django.utils.six.moves import http_client
+from django.conf import settings
 
 from oscar.core.loading import get_model
-from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.template import Template, Context
 from django_dynamic_fixture import get, G
 
 from oscar.test.testcases import WebTestCase
 from oscar.test.factories import create_order, create_basket
-from oscar.apps.order.models import Order, OrderNote
+from oscar.apps.order.models import Order, OrderNote, PaymentEvent, \
+    PaymentEventType
 from oscar.core.compat import get_user_model
 
 
@@ -122,39 +122,118 @@ class PermissionBasedDashboardOrderTestsStaff(PermissionBasedDashboardOrderTests
             self.assertIsOk(self.get(url))
 
 
-class OrderDetailTests(WebTestCase):
+class TestOrderDetailPage(WebTestCase):
     is_staff = True
 
-    # CSRF disabled as we're using self.post directly rather than submitting a
-    # form. This is done as the order status changing view doesn't have a
-    # corresponding form within the dashboard.
-    csrf_checks = False
+    def setUp(self):
+        super(TestOrderDetailPage, self).setUp()
+        # ensures that initial statuses are as expected
+        self.order = create_order()
+        self.event_type = PaymentEventType.objects.create(name='foo')
+        url = reverse('dashboard:order-detail',
+                      kwargs={'number': self.order.number})
+        self.page = self.get(url)
+
+    def test_contains_order(self):
+        self.assertEqual(self.page.context['order'], self.order)
+
+    def test_allows_notes_to_be_added(self):
+        form = self.page.forms['order_note_form']
+        form['message'] = "boom"
+        response = form.submit()
+        self.assertIsRedirect(response)
+        notes = self.order.notes.all()
+        self.assertEqual(1, len(notes))
+
+    def test_allows_line_status_to_be_changed(self):
+        line = self.order.lines.all()[0]
+        self.assertEqual(line.status, settings.OSCAR_INITIAL_LINE_STATUS)
+
+        form = self.page.forms['order_lines_form']
+        form['line_action'] = 'change_line_statuses'
+        form['new_status'] = new_status = 'b'
+        form['selected_line'] = [line.pk]
+        form.submit()
+        # fetch line again
+        self.assertEqual(self.order.lines.all()[0].status, new_status)
+
+    def test_allows_order_status_to_be_changed(self):
+        form = self.page.forms['order_status_form']
+        self.assertEqual(
+            self.order.status, settings.OSCAR_INITIAL_ORDER_STATUS)
+
+        form = self.page.forms['order_status_form']
+        form['new_status'] = new_status = 'B'
+        form.submit()
+
+        # fetch order again
+        self.assertEqual(Order.objects.get(pk=self.order.pk).status, new_status)
+
+    def test_allows_creating_payment_event(self):
+        line = self.order.lines.all()[0]
+        form = self.page.forms['order_lines_form']
+        form['line_action'] = 'create_payment_event'
+        form['selected_line'] = [line.pk]
+        form['payment_event_type'] = self.event_type.code
+        form.submit()
+
+        self.assertTrue(PaymentEvent.objects.exists())
+
+
+class TestChangingOrderStatus(WebTestCase):
+    is_staff = True
 
     def setUp(self):
+        super(TestChangingOrderStatus, self).setUp()
+
         Order.pipeline = {'A': ('B', 'C')}
         self.order = create_order(status='A')
-        self.url = reverse('dashboard:order-detail',
-                           kwargs={'number': self.order.number})
-        super(OrderDetailTests, self).setUp()
+        url = reverse('dashboard:order-detail',
+                      kwargs={'number': self.order.number})
 
-    def fetch_order(self):
+        page = self.get(url)
+        form = page.forms['order_status_form']
+        form['new_status'] = 'B'
+        self.response = form.submit()
+
+    def reload_order(self):
         return Order.objects.get(number=self.order.number)
 
-    def test_order_detail_page_contains_order(self):
-        response = self.get(self.url)
-        self.assertTrue('order' in response.context)
+    def test_works(self):
+        self.assertIsRedirect(self.response)
+        self.assertEqual('B', self.reload_order().status)
 
-    def test_order_status_change(self):
-        params = {'order_action': 'change_order_status',
-                  'new_status': 'B'}
-        response = self.post(self.url, params=params)
-        self.assertIsRedirect(response)
-        self.assertEqual('B', self.fetch_order().status)
+    def test_creates_system_note(self):
+        notes = self.order.notes.all()
+        self.assertEqual(1, len(notes))
+        self.assertEqual(OrderNote.SYSTEM, notes[0].note_type)
 
-    def test_order_status_change_creates_system_note(self):
-        params = {'order_action': 'change_order_status',
-                  'new_status': 'B'}
-        self.post(self.url, params=params)
+
+class TestChangingOrderStatusFromFormOnOrderListView(WebTestCase):
+    is_staff = True
+
+    def setUp(self):
+        super(TestChangingOrderStatusFromFormOnOrderListView, self).setUp()
+
+        Order.pipeline = {'A': ('B', 'C'), 'B': ('A', 'C'), 'C': ('A', 'B')}
+        self.order = create_order(status='A')
+        url = reverse('dashboard:order-list')
+
+        page = self.get(url)
+        form = page.forms['orders_form']
+        form['new_status'] = 'B'
+        form['selected_order'] = self.order.pk
+        self.response = form.submit(name='action', value='change_order_statuses')
+
+    def reload_order(self):
+        return Order.objects.get(number=self.order.number)
+
+    def test_works(self):
+        self.assertIsRedirect(self.response)
+        # Has the order status been changed?
+        self.assertEqual('B', self.reload_order().status)
+
+        # Is a system note created?
         notes = self.order.notes.all()
         self.assertEqual(1, len(notes))
         self.assertEqual(OrderNote.SYSTEM, notes[0].note_type)
@@ -178,17 +257,3 @@ class LineDetailTests(WebTestCase):
     def test_line_in_context(self):
         response = self.get(self.url)
         self.assertInContext(response, 'line')
-
-
-class TemplateTagTests(TestCase):
-    def test_get_num_orders(self):
-        user = get(User)
-        for i in range(1, 4):
-            get(Order, user=user)
-        out = Template(
-            "{% load dashboard_tags %}"
-            "{% num_orders user %}"
-        ).render(Context({
-            'user': user
-        }))
-        self.assertEqual(out, "3")

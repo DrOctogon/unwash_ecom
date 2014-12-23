@@ -5,8 +5,8 @@
 {% purchase_info_for_product request product as session %}
 
 {% if session.availability.is_available_to_buy %}
-    {% basket_form request product as basket_form single %}
-    <form action="{% url 'basket:add' %}" method="post">
+    {% basket_form request product 'single' as basket_form %}
+    <form action="{% url 'basket:add' pk=product.pk %}" method="post">
         {% csrf_token %}
         {{ basket_form.as_p }}
         <button type="submit" class="btn btn-primary btn-block">{% trans "Add to basket" %}</button>

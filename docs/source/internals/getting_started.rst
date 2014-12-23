@@ -68,8 +68,8 @@ Edit your settings file ``frobshop.frobshop.settings.py`` to specify
         'oscar.core.context_processors.metadata',
     )
 
-Next, modify ``INSTALLED_APPS`` to be a list, add ``South`` and ``compressor``
-and append Oscar's core apps:
+Next, modify ``INSTALLED_APPS`` to be a list, add ``django.contrib.sites``, ``django.contrib.flatpages`` and ``compressor``
+and append Oscar's core apps. Also set ``SITE_ID``:
 
 .. code-block:: django
 
@@ -84,7 +84,6 @@ and append Oscar's core apps:
         'django.contrib.staticfiles',
         'django.contrib.flatpages',
         ...
-        'south',
         'compressor',
     ] + get_core_apps()
 
@@ -97,24 +96,6 @@ More info about installing ``flatpages`` is in the `Django docs`_.
 
 .. _`Django docs`: https://docs.djangoproject.com/en/dev/ref/contrib/flatpages/#installation
 
-Next, add ``oscar.apps.basket.middleware.BasketMiddleware``, 
-``django.contrib.flatpages.middleware.FlatpageFallbackMiddleware`` to
-your ``MIDDLEWARE_CLASSES`` setting. If you're running on Django 1.5, it is
-also recommended to use ``django.middleware.transaction.TransactionMiddleware``:
-
-.. code-block:: django
-
-    MIDDLEWARE_CLASSES = (
-        ...
-        'oscar.apps.basket.middleware.BasketMiddleware',
-        'django.middleware.transaction.TransactionMiddleware',  # Django 1.5 only
-        'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    )
-
-If you're running Django 1.6+, you should enable ``ATOMIC_REQUESTS`` instead
-(see database settings above).
-
-
 .. tip::
 
     Oscar's default templates use django-compressor_ but it's optional really.
@@ -123,39 +104,49 @@ If you're running Django 1.6+, you should enable ``ATOMIC_REQUESTS`` instead
 
 .. _django-compressor: https://github.com/jezdez/django_compressor
 
-Now set your auth backends to:
+Next, add ``oscar.apps.basket.middleware.BasketMiddleware`` and
+``django.contrib.flatpages.middleware.FlatpageFallbackMiddleware`` to
+your ``MIDDLEWARE_CLASSES`` setting.
+
+.. code-block:: django
+
+    MIDDLEWARE_CLASSES = (
+        ...
+        'oscar.apps.basket.middleware.BasketMiddleware',
+        'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    )
+
+Set your auth backends to:
 
 .. code-block:: django
 
     AUTHENTICATION_BACKENDS = (
-        'oscar.apps.customer.auth_backends.Emailbackend',
+        'oscar.apps.customer.auth_backends.EmailBackend',
         'django.contrib.auth.backends.ModelBackend',
     )
 
 to allow customers to sign in using an email address rather than a username.
 
-Set ``MEDIA_ROOT`` and ``MEDIA_URL`` to your environment, and make sure the
-path in ``MEDIA_ROOT`` exists. An example from the Sandbox site:
+Ensure that your media and static files are `configured correctly`_. This means
+at the least setting ``MEDIA_URL`` and ``STATIC_URL``. If you're serving files
+locally, you'll also need to set ``MEDIA_ROOT`` and ``STATIC_ROOT``.
+Check out the `sandbox settings`_ for a working example. If you're serving
+files from a remote storage (e.g. Amazon S3), you must manually copy a
+:ref:`"Image not found" image <missing-image-label>` into ``MEDIA_ROOT``.
 
-.. code-block:: django
-
-
-    PROJECT_DIR = os.path.dirname(__file__)
-    location = lambda x: os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), x)
-    MEDIA_ROOT = location("public/media")
-    MEDIA_URL = '/media/'
-
-Now verify your ``staticfiles`` `settings`_ and ensure that files in ``MEDIA_ROOT``
-get served.
-
-_`settings`: https://docs.djangoproject.com/en/1.5/howto/static-files/#serving-files-uploaded-by-a-user
+.. _`configured correctly`: https://docs.djangoproject.com/en/1.7/howto/static-files/
+.. _sandbox settings: https://github.com/django-oscar/django-oscar/blob/3a5160a86c9b14c940c76a224a28cd37dd29f7f1/sites/sandbox/settings.py#L99
 
 Modify your ``TEMPLATE_DIRS`` to include the main Oscar template directory:
 
 .. code-block:: django
 
+    import os
     from oscar import OSCAR_MAIN_TEMPLATE_DIR
+
+    location = lambda x: os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), x)
+
     TEMPLATE_DIRS = (
         location('templates'),
         OSCAR_MAIN_TEMPLATE_DIR,
@@ -170,19 +161,28 @@ The last addition to the settings file is to import all of Oscar's default setti
 URLs
 ====
 
-Alter your ``frobshop/urls.py`` to include Oscar's URLs. If you have more than
-one language set your Django settings for ``LANGUAGES``, you will also need to
-include Django's i18n URLs:
+Alter your ``frobshop/urls.py`` to include Oscar's URLs. You can also include
+the Django admin for debugging purposes. But please note that Oscar makes no
+attempts at having that be a workable interface; admin integration exists
+to ease the life of developers.
+
+If you have more than one language set your Django settings for ``LANGUAGES``,
+you will also need to include Django's i18n URLs:
 
 .. code-block:: django
 
-    from django.conf.urls import patterns, include, url
+    from django.conf.urls import include, url
     from oscar.app import application
 
-    urlpatterns = patterns('',
-        (r'^i18n/', include('django.conf.urls.i18n')),
-        url(r'', include(application.urls))
-    )
+    urlpatterns = [
+        url(r'^i18n/', include('django.conf.urls.i18n')),
+
+        # The Django admin is not officially supported; expect breakage.
+        # Nonetheless, it's often useful for debugging.
+        url(r'^admin/', include(admin.site.urls)),
+
+        url(r'', include(application.urls)),
+    ]
 
 Search backend
 ==============
@@ -199,8 +199,8 @@ backend:
 
 Oscar uses Haystack to abstract away from different search backends.
 Unfortunately, writing backend-agnostic code is nonetheless hard and
-Apache Sorl is the only supported production-grade backend. Your Haystack
-config could look something like this:
+Apache Solr is currently the only supported production-grade backend. Your
+Haystack config could look something like this:
 
 .. code-block:: django
 
@@ -212,6 +212,9 @@ config could look something like this:
         },
     }
 
+Oscar includes a sample schema to get started with Solr. More information can
+be found in the
+:doc:`recipe on getting Solr up and running</howto/how_to_setup_solr>`.
 
 Database
 ========
@@ -228,47 +231,73 @@ Check your database settings. A quick way to get started is to use SQLite:
             'PASSWORD': '',
             'HOST': '',
             'PORT': '',
-            'ATOMIC_REQUESTS': True,  # Django 1.6+
+            'ATOMIC_REQUESTS': True,
         }
     }
 
 Note that we recommend using ``ATOMIC_REQUESTS`` to tie transactions to
 requests.
 
+Migrations
+----------
+
+Oscar ships with two sets of migrations. If you're running Django 1.7, you
+don't need to do anything; Django's migration framework will detect them
+automatically and will do the right thing.
+If you're running Django 1.6, you need to install `South`_:
+
+.. code-block:: bash
+
+    $ pip install South
+
+And you need to add it to your installed apps:
+
+.. code-block:: django
+
+    INSTALLED_APPS = [
+        ...
+        'south',
+    ] + get_core_apps()
+
+.. _South: http://south.readthedocs.org/en/latest/
+
+Create Database
+---------------
+
 Then create the database and the shop should be browsable:
 
 .. code-block:: bash
 
-    $ python manage.py syncdb --noinput
+    $ python manage.py syncdb --noinput  # Only needed for Django 1.6
     $ python manage.py migrate
     $ python manage.py runserver
 
 You should now have an empty, but running Oscar install that you can browse at
 http://localhost:8000.
 
-Fixtures
-========
+
+Initial data
+============
 
 The default checkout process requires a shipping address with a country.  Oscar
 uses a model for countries with flags that indicate which are valid shipping
-countries and so the ``address_country`` database table must be populated before
+countries and so the ``country`` database table must be populated before
 a customer can check out.
 
-This is easily achieved using fixtures.  Oscar ships with a ``countries.json``
-fixture that loads most countries from the `ISO 3166 standard`_.  This can loaded
-via::
+The easiest way to achieve this is to use country data from the `pycountry`_
+package. Oscar ships with a management command to parse that data:
 
-    $ python manage.py loaddata countries
+.. code-block:: bash
 
-Note however that this file only sets the UK as a valid shipping country.  If
-you want other countries to be available, it would make more sense to take a
-copy of Oscar's countries fixture and edit it as you see it before loading it.
+    $ pip install pycountry
+    [...]
+    $ python manage.py oscar_populate_countries
 
-Further, a simple way of loading countries for your project is to use a `data
-migration`_.
+By default, this command will mark all countries as a shipping country. Call
+it with the ``--no-shipping`` option to prevent that. You then need to
+manually mark at least one country as a shipping country.
 
-.. _`ISO 3166 standard`: http://en.wikipedia.org/wiki/ISO_3166
-.. _`data migration`: http://codeinthehole.com/writing/prefer-data-migrations-to-initial-data/
+.. _pycountry: https://pypi.python.org/pypi/pycountry
 
 
 Creating product classes and fulfillment partners
@@ -284,7 +313,7 @@ The quickest way to set them up is to log into the Django admin
 interface at http://127.0.0.1:8000/admin/ and create instances of both there.
 For a deployment setup, we recommend creating them as `data migration`_.
 
-.. _data migration: http://codeinthehole.com/writing/prefer-data-migrations-to-initial-data/
+.. _`data migration`: http://codeinthehole.com/writing/prefer-data-migrations-to-initial-data/
 
 Defining the order pipeline
 ===========================

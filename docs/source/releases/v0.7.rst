@@ -2,10 +2,12 @@
 Oscar 0.7 release notes
 =======================
 
+:release: 2014-04-29
+
 Welcome to Oscar 0.7!
 
-These release notes cover the :ref:`new features <what_is_new>` as well as
-:ref:`backwards incompatible changes <incompatible_changes>` that you'll want to be aware of when
+These release notes cover the :ref:`new features <new_in_0.7>` as well as
+:ref:`backwards incompatible changes <incompatible_changes_in_0.7>` that you'll want to be aware of when
 upgrading from Oscar 0.6 or earlier.  
 
 If you encounter any undocumented issues, please let us know on the `mailing
@@ -19,7 +21,7 @@ Table of contents:
     :local:
     :depth: 1
 
-.. _overview:
+.. _overview_of_0.7:
 
 Overview
 ========
@@ -36,7 +38,7 @@ Further, ensure you test your checkout implementation carefully after upgrading
 as the core Oscar checkout view classes have been reorganised slightly.  Any
 upgrading work should be minor but be diligent.
 
-.. _compatibility:
+.. _compatibility_of_0.7:
 
 Compatibility
 =============
@@ -46,7 +48,7 @@ Oscar 0.7 has experimental support for Python 3.
 Support for Django 1.4 has been dropped, and support for Django 1.6 is
 now considered stable.
 
-.. _what_is_new:
+.. _new_in_0.7:
 
 What's new in Oscar 0.7?
 ========================
@@ -64,7 +66,7 @@ Several improvements have been made to Oscar's default search functionality:
 * Only products are returned by the core search view.  Other content types in
   your search index are filtered out (`#370`_).
 
-.. _`#370`: https://github.com/tangentlabs/django-oscar/issues/370
+.. _`#370`: https://github.com/django-oscar/django-oscar/issues/370
 
 Extended signals
 ~~~~~~~~~~~~~~~~
@@ -129,7 +131,7 @@ Finally, the ``billing_address`` kwarg to
 If you want to pass a billing address to be saved against the order, then pass
 it as part of the ``order_kwargs`` option.
 
-.. _minor_changes:
+.. _minor_changes_in_0.7:
 
 Minor changes
 ~~~~~~~~~~~~~
@@ -199,11 +201,11 @@ Minor changes
   extended to submit the Python and Django version in use.
   Tracking is still easily disabled by setting ``OSCAR_TRACKING`` to ``False``.
 
-.. _`#1202`: https://github.com/tangentlabs/django-oscar/pull/1202
-.. _`#1299`: https://github.com/tangentlabs/django-oscar/pull/1299
-.. _`b920f8ba`: https://github.com/tangentlabs/django-oscar/commit/b920f8ba288cd2f19bb167db2a012479ba956397
-.. _`ef3ccf08a7`: https://github.com/tangentlabs/django-oscar/commit/ef3ccf08a707ae1250cdb8d5f2dc6f721d020dc4
-.. _`32b7249`: https://github.com/tangentlabs/django-oscar/commit/32b7249e44b40cb1b20d01226f77ae6777a20b91
+.. _`#1202`: https://github.com/django-oscar/django-oscar/pull/1202
+.. _`#1299`: https://github.com/django-oscar/django-oscar/pull/1299
+.. _`b920f8ba`: https://github.com/django-oscar/django-oscar/commit/b920f8ba288cd2f19bb167db2a012479ba956397
+.. _`ef3ccf08a7`: https://github.com/django-oscar/django-oscar/commit/ef3ccf08a707ae1250cdb8d5f2dc6f721d020dc4
+.. _`32b7249`: https://github.com/django-oscar/django-oscar/commit/32b7249e44b40cb1b20d01226f77ae6777a20b91
 .. _`i18n_patterns`: https://docs.djangoproject.com/en/dev/topics/i18n/translation/#language-prefix-in-url-patterns
 
 Bugfixes
@@ -217,11 +219,11 @@ Bugfixes
 
 * Products can now be removed from categories (`#1289`_).
 
-.. _`#1228`: https://github.com/tangentlabs/django-oscar/issues/1228
-.. _`#1289`: https://github.com/tangentlabs/django-oscar/issues/1289
-.. _`be04d46639`: https://github.com/tangentlabs/django-oscar/commit/
+.. _`#1228`: https://github.com/django-oscar/django-oscar/issues/1228
+.. _`#1289`: https://github.com/django-oscar/django-oscar/issues/1289
+.. _`be04d46639`: https://github.com/django-oscar/django-oscar/commit/
 
-.. _incompatible_changes:
+.. _incompatible_changes_in_0.7:
 
 Backwards incompatible changes in 0.7
 =====================================
@@ -278,8 +280,8 @@ Backwards incompatible changes in 0.7
 * The methods ``get_error_response`` and ``can_basket_be_submitted`` have been
   removed from the ``PaymentDetailsView`` view class in checkout
 
-.. _`#1123`: https://github.com/tangentlabs/django-oscar/pull/1123
-.. _`#1251`: https://github.com/tangentlabs/django-oscar/pull/1251
+.. _`#1123`: https://github.com/django-oscar/django-oscar/pull/1123
+.. _`#1251`: https://github.com/django-oscar/django-oscar/pull/1251
 
 Removal of features deprecated in 0.6
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -317,6 +319,11 @@ Migrations
     app and use your own migrations, then you will need to first convert
     affected ``None``'s to ``''`` yourself; see the data migrations for our
     approach.
+
+.. note::
+
+    Be sure to read the detailed instructions for
+    :doc:`handling migrations </topics/upgrading>`.
 
 * Address:
 

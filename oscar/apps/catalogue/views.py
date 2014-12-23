@@ -1,12 +1,12 @@
-import warnings
-from django.conf import settings
+from django.contrib import messages
+from django.core.paginator import InvalidPage
+from django.utils.http import urlquote
 from django.http import HttpResponsePermanentRedirect
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView
-from oscar.core.loading import get_model
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import DetailView, TemplateView
 from django.utils.translation import ugettext_lazy as _
 
-from oscar.core.loading import get_class
+from oscar.core.loading import get_class, get_model
 from oscar.apps.catalogue.signals import product_viewed
 
 Product = get_model('catalogue', 'product')
@@ -14,6 +14,8 @@ ProductReview = get_model('reviews', 'ProductReview')
 Category = get_model('catalogue', 'category')
 ProductAlert = get_model('customer', 'ProductAlert')
 ProductAlertForm = get_class('customer.forms', 'ProductAlertForm')
+get_product_search_handler_class = get_class(
+    'catalogue.search_handlers', 'get_product_search_handler_class')
 
 
 class ProductDetailView(DetailView):
@@ -21,7 +23,12 @@ class ProductDetailView(DetailView):
     model = Product
     view_signal = product_viewed
     template_folder = "catalogue"
+
+    # Whether to redirect to the URL with the right path
     enforce_paths = True
+
+    # Whether to redirect child products to their parent's URL
+    enforce_parent = True
 
     def get(self, request, **kwargs):
         """
@@ -29,14 +36,9 @@ class ProductDetailView(DetailView):
         """
         self.object = product = self.get_object()
 
-        if self.enforce_paths:
-            if product.is_variant:
-                return HttpResponsePermanentRedirect(
-                    product.parent.get_absolute_url())
-
-            correct_path = product.get_absolute_url()
-            if correct_path != request.path:
-                return HttpResponsePermanentRedirect(correct_path)
+        redirect = self.redirect_if_necessary(request.path, product)
+        if redirect is not None:
+            return redirect
 
         response = super(ProductDetailView, self).get(request, **kwargs)
         self.send_signal(request, response, product)
@@ -49,13 +51,21 @@ class ProductDetailView(DetailView):
         else:
             return super(ProductDetailView, self).get_object(queryset)
 
+    def redirect_if_necessary(self, current_path, product):
+        if self.enforce_parent and product.is_child:
+            return HttpResponsePermanentRedirect(
+                product.parent.get_absolute_url())
+
+        if self.enforce_paths:
+            expected_path = product.get_absolute_url()
+            if expected_path != urlquote(current_path):
+                return HttpResponsePermanentRedirect(expected_path)
+
     def get_context_data(self, **kwargs):
         ctx = super(ProductDetailView, self).get_context_data(**kwargs)
-        reviews = self.get_reviews()
-        ctx['reviews'] = reviews
+        ctx['reviews'] = self.get_reviews()
         ctx['alert_form'] = self.get_alert_form()
         ctx['has_active_alert'] = self.get_alert_status()
-
         return ctx
 
     def get_alert_status(self):
@@ -84,13 +94,17 @@ class ProductDetailView(DetailView):
         """
         Return a list of possible templates.
 
-        We try 2 options before defaulting to catalogue/detail.html:
+        If an overriding class sets a template name, we use that. Otherwise,
+        we try 2 options before defaulting to catalogue/detail.html:
             1). detail-for-upc-<upc>.html
             2). detail-for-class-<classname>.html
 
         This allows alternative templates to be provided for a per-product
         and a per-item-class basis.
         """
+        if self.template_name:
+            return [self.template_name]
+
         return [
             '%s/detail-for-upc-%s.html' % (
                 self.template_folder, self.object.upc),
@@ -99,72 +113,93 @@ class ProductDetailView(DetailView):
             '%s/detail.html' % (self.template_folder)]
 
 
-def get_product_base_queryset():
+class CatalogueView(TemplateView):
     """
-    Deprecated. Kept only for backwards compatibility.
-    Product.browsable.base_queryset() should be used instead.
+    Browse all products in the catalogue
     """
-    warnings.warn(("`get_product_base_queryset` is deprecated in favour of"
-                   "`base_queryset` on Product's managers. It will be removed"
-                   "in Oscar 0.7."), DeprecationWarning)
-    return Product.browsable.base_queryset()
+    context_object_name = "products"
+    template_name = 'catalogue/browse.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.search_handler = self.get_search_handler(
+                self.request.GET, request.get_full_path(), [])
+        except InvalidPage:
+            # Redirect to page one.
+            messages.error(request, _('The given page number was invalid.'))
+            return redirect('catalogue:index')
+        return super(CatalogueView, self).get(request, *args, **kwargs)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = {}
+        ctx['summary'] = _("All products")
+        search_context = self.search_handler.get_search_context_data(
+            self.context_object_name)
+        ctx.update(search_context)
+        return ctx
 
 
-class ProductCategoryView(ListView):
+class ProductCategoryView(TemplateView):
     """
     Browse products in a given category
     """
     context_object_name = "products"
-    template_name = 'catalogue/browse.html'
-    paginate_by = settings.OSCAR_PRODUCTS_PER_PAGE
+    template_name = 'catalogue/category.html'
     enforce_paths = True
 
-    def get_object(self):
+    def get(self, request, *args, **kwargs):
+        # Fetch the category; return 404 or redirect as needed
+        self.category = self.get_category()
+        potential_redirect = self.redirect_if_necessary(
+            request.path, self.category)
+        if potential_redirect is not None:
+            return potential_redirect
+
+        try:
+            self.search_handler = self.get_search_handler(
+                request.GET, request.get_full_path(), self.get_categories())
+        except InvalidPage:
+            messages.error(request, _('The given page number was invalid.'))
+            return redirect(self.category.get_absolute_url())
+
+        return super(ProductCategoryView, self).get(request, *args, **kwargs)
+
+    def get_category(self):
         if 'pk' in self.kwargs:
             # Usual way to reach a category page. We just look at the primary
             # key in case the slug changed. If it did, get() will redirect
             # appropriately
-            self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
-        elif 'category_slug' in self.kwargs:
+            filters = {'pk': self.kwargs['pk']}
+        else:
             # For SEO reasons, we allow chopping off bits of the URL. If that
             # happened, no primary key will be available.
-            self.category = get_object_or_404(
-                Category, slug=self.kwargs['category_slug'])
-        else:
-            # If neither slug nor primary key are given, we show all products
-            self.category = None
+            filters = {'slug': self.kwargs['category_slug']}
+        return get_object_or_404(Category, **filters)
 
-    def get(self, request, *args, **kwargs):
-        self.get_object()
-        if self.enforce_paths and self.category is not None:
-            # Categories are fetched by primary key to allow slug changes
-            # If the slug has indeed changed, issue a redirect
-            correct_path = self.category.get_absolute_url()
-            if correct_path != request.path:
-                return HttpResponsePermanentRedirect(correct_path)
-        return super(ProductCategoryView, self).get(request, *args, **kwargs)
+    def redirect_if_necessary(self, current_path, category):
+        if self.enforce_paths:
+            # Categories are fetched by primary key to allow slug changes.
+            # If the slug has changed, issue a redirect.
+            expected_path = category.get_absolute_url()
+            if expected_path != urlquote(current_path):
+                return HttpResponsePermanentRedirect(expected_path)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
 
     def get_categories(self):
         """
-        Return a list of the current category and it's ancestors
+        Return a list of the current category and its ancestors
         """
-        return list(self.category.get_descendants()) + [self.category]
-
-    def get_summary(self):
-        """
-        Summary to be shown in template
-        """
-        return self.category.name if self.category else _('All products')
+        return self.category.get_descendants_and_self()
 
     def get_context_data(self, **kwargs):
         context = super(ProductCategoryView, self).get_context_data(**kwargs)
         context['category'] = self.category
-        context['summary'] = self.get_summary()
+        search_context = self.search_handler.get_search_context_data(
+            self.context_object_name)
+        context.update(search_context)
         return context
-
-    def get_queryset(self):
-        qs = Product.browsable.base_queryset()
-        if self.category is not None:
-            categories = self.get_categories()
-            qs = qs.filter(categories__in=categories).distinct()
-        return qs

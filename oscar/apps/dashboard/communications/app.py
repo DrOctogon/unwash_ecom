@@ -1,15 +1,15 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from oscar.core.application import Application
-from oscar.apps.dashboard.communications import views
+from oscar.core.loading import get_class
 
 
 class CommsDashboardApplication(Application):
     name = None
     default_permissions = ['is_staff', ]
 
-    list_view = views.ListView
-    update_view = views.UpdateView
+    list_view = get_class('dashboard.communications.views', 'ListView')
+    update_view = get_class('dashboard.communications.views', 'UpdateView')
 
     def get_urls(self):
         urls = [
@@ -17,7 +17,7 @@ class CommsDashboardApplication(Application):
             url(r'^(?P<slug>\w+)/$', self.update_view.as_view(),
                 name='comms-update'),
         ]
-        return self.post_process_urls(patterns('', *urls))
+        return self.post_process_urls(urls)
 
 
 application = CommsDashboardApplication()

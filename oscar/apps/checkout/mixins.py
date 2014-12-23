@@ -11,7 +11,6 @@ OrderCreator = get_class('order.utils', 'OrderCreator')
 Dispatcher = get_class('customer.utils', 'Dispatcher')
 CheckoutSessionMixin = get_class('checkout.session', 'CheckoutSessionMixin')
 ShippingAddress = get_model('order', 'ShippingAddress')
-CommunicationEvent = get_model('order', 'CommunicationEvent')
 OrderNumberGenerator = get_class('order.utils', 'OrderNumberGenerator')
 PaymentEventType = get_model('order', 'PaymentEventType')
 PaymentEvent = get_model('order', 'PaymentEvent')
@@ -98,7 +97,8 @@ class OrderPlacementMixin(CheckoutSessionMixin):
 
     def handle_order_placement(self, order_number, user, basket,
                                shipping_address, shipping_method,
-                               total, **kwargs):
+                               shipping_charge, billing_address, order_total,
+                               **kwargs):
         """
         Write out the order models and return the appropriate HTTP response
 
@@ -107,13 +107,16 @@ class OrderPlacementMixin(CheckoutSessionMixin):
         can happen when a basket gets frozen.
         """
         order = self.place_order(
-            order_number, user, basket, shipping_address, shipping_method,
-            total, **kwargs)
+            order_number=order_number, user=user, basket=basket,
+            shipping_address=shipping_address, shipping_method=shipping_method,
+            shipping_charge=shipping_charge, order_total=order_total, 
+            billing_address=billing_address, **kwargs)
         basket.submit()
         return self.handle_successful_order(order)
 
     def place_order(self, order_number, user, basket, shipping_address,
-                    shipping_method, total, billing_address=None, **kwargs):
+                    shipping_method, shipping_charge, order_total,
+                    billing_address=None, **kwargs):
         """
         Writes the order out to the DB including the payment models
         """
@@ -137,7 +140,8 @@ class OrderPlacementMixin(CheckoutSessionMixin):
             basket=basket,
             shipping_address=shipping_address,
             shipping_method=shipping_method,
-            total=total,
+            shipping_charge=shipping_charge,
+            total=order_total,
             billing_address=billing_address,
             status=status, **kwargs)
         self.save_payment_details(order)
@@ -232,7 +236,7 @@ class OrderPlacementMixin(CheckoutSessionMixin):
         order is submitted.
         """
         # Send confirmation message (normally an email)
-        self.send_confirmation_message(order)
+        self.send_confirmation_message(order, self.communication_type_code)
 
         # Flush all session data
         self.checkout_session.flush()
@@ -252,12 +256,36 @@ class OrderPlacementMixin(CheckoutSessionMixin):
     def get_success_url(self):
         return reverse('checkout:thank-you')
 
-    def send_confirmation_message(self, order, **kwargs):
-        code = self.communication_type_code
-        ctx = {'user': self.request.user,
-               'order': order,
-               'site': get_current_site(self.request),
-               'lines': order.lines.all()}
+    def send_confirmation_message(self, order, code, **kwargs):
+        ctx = self.get_message_context(order)
+        try:
+            event_type = CommunicationEventType.objects.get(code=code)
+        except CommunicationEventType.DoesNotExist:
+            # No event-type in database, attempt to find templates for this
+            # type and render them immediately to get the messages.  Since we
+            # have not CommunicationEventType to link to, we can't create a
+            # CommunicationEvent instance.
+            messages = CommunicationEventType.objects.get_and_render(code, ctx)
+            event_type = None
+        else:
+            messages = event_type.get_messages(ctx)
+
+        if messages and messages['body']:
+            logger.info("Order #%s - sending %s messages", order.number, code)
+            dispatcher = Dispatcher(logger)
+            dispatcher.dispatch_order_messages(order, messages,
+                                               event_type, **kwargs)
+        else:
+            logger.warning("Order #%s - no %s communication event type",
+                           order.number, code)
+
+    def get_message_context(self, order):
+        ctx = {
+            'user': self.request.user,
+            'order': order,
+            'site': get_current_site(self.request),
+            'lines': order.lines.all()
+        }
 
         if not self.request.user.is_authenticated():
             # Attempt to add the anon order status URL to the email template
@@ -272,30 +300,7 @@ class OrderPlacementMixin(CheckoutSessionMixin):
             else:
                 site = Site.objects.get_current()
                 ctx['status_url'] = 'http://%s%s' % (site.domain, path)
-
-        try:
-            event_type = CommunicationEventType.objects.get(code=code)
-        except CommunicationEventType.DoesNotExist:
-            # No event-type in database, attempt to find templates for this
-            # type and render them immediately to get the messages.  Since we
-            # have not CommunicationEventType to link to, we can't create a
-            # CommunicationEvent instance.
-            messages = CommunicationEventType.objects.get_and_render(code, ctx)
-            event_type = None
-        else:
-            # Create CommunicationEvent
-            CommunicationEvent._default_manager.create(
-                order=order, event_type=event_type)
-            messages = event_type.get_messages(ctx)
-
-        if messages and messages['body']:
-            logger.info("Order #%s - sending %s messages", order.number, code)
-            dispatcher = Dispatcher(logger)
-            dispatcher.dispatch_order_messages(order, messages,
-                                               event_type, **kwargs)
-        else:
-            logger.warning("Order #%s - no %s communication event type",
-                           order.number, code)
+        return ctx
 
     # Basket helpers
     # --------------

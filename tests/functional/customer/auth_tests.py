@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django_webtest import WebTest
 
 from oscar.test.testcases import WebTestCase
+from oscar.test import factories
 from oscar.core.compat import get_user_model
 
 
@@ -92,6 +93,7 @@ class TestAnAuthenticatedUser(WebTestCase):
 
 
 class TestAnAnonymousUser(WebTestCase):
+    is_anonymous = True
 
     def assertCanLogin(self, email, password):
         url = reverse('customer:login')
@@ -120,7 +122,34 @@ class TestAnAnonymousUser(WebTestCase):
         url = reverse('customer:register')
         form = self.app.get(url).forms['register_form']
         form['email'] = 'terry@boom.com'
-        form['password1'] = 'hedgehog'
-        form['password2'] = 'hedgehog'
+        form['password1'] = form['password2'] = 'hedgehog'
         response = form.submit()
         self.assertRedirectsTo(response, 'customer:summary')
+
+    def test_casing_of_local_part_of_email_is_preserved(self):
+        url = reverse('customer:register')
+        form = self.app.get(url).forms['register_form']
+        form['email'] = 'Terry@Boom.com'
+        form['password1'] = form['password2'] = 'hedgehog'
+        form.submit()
+        user = User.objects.all()[0]
+        self.assertEqual(user.email, 'Terry@boom.com')
+
+
+class TestAStaffUser(WebTestCase):
+    is_anonymous = True
+    password = 'testing'
+
+    def setUp(self):
+        self.staff = factories.UserFactory.create(
+            password=self.password, is_staff=True)
+        super(TestAStaffUser, self).setUp()
+
+    def test_gets_redirected_to_the_dashboard_when_they_login(self):
+        page = self.get(reverse('customer:login'))
+        form = page.forms['login_form']
+        form['login-username'] = self.staff.email
+        form['login-password'] = self.password
+        response = form.submit('login_submit')
+
+        self.assertRedirectsTo(response, 'dashboard:index')
