@@ -53,6 +53,9 @@ sites/puppet/modules/
 
 # sqlite3
 db.sqlite3
+
+# Unwash
 .env
-unwashproject/public/media/cache
 unwashproject/logs
+unwashproject/public/media/cache
+unwashproject/public/static/
