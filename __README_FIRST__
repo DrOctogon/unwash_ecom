@@ -65,7 +65,7 @@ python manage.py migrate
 
 ##Load up countries:
 ```
-python manage.py loaddata oscar/fixtures/countries.json
+python manage.py oscar_populate_countries
 ```
 
 Oscar sets the default store location to GB, the store locale must be changed within the DB to US
