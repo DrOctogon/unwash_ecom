@@ -1,31 +1,20 @@
-# Packaging
 *.pyc
 *.egg-info
 /dist/
 /build/
-
-# Vagrant
 .vagrant
-
-# Temporary/OS files
 *.swp
 *.swo
 *.*~
 .~lock.*
 *.DS_Store
-
-# IDE files
 .project
 .pydevproject
 .settings
 .idea
-
-# Docs
 /docs/build/*
 *.pdf
 TODO
-
-# Test files
 .coverage
 .noseids
 coverage.xml
@@ -33,8 +22,6 @@ violations.txt
 nosetests.xml
 /htmlcov/*
 /.tox/*
-
-# Example sites
 settings_local.py
 /sites/sandbox/*.sqlite
 /sites/sandbox/assets/
@@ -47,7 +34,6 @@ settings_local.py
 /sites/demo/whoosh_index/
 /sites/demo/logs/
 sites/puppet/modules/
-
-
-# sqlite3
 db.sqlite3
+unwashproject/public/media/cache
+unwashproject/logs
