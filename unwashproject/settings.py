@@ -46,7 +46,7 @@ LANGUAGES = (
     ('en-us', gettext_noop('American English')),
 )
 
-EMAIL_SUBJECT_PREFIX = '[unwashproject.'
+EMAIL_SUBJECT_PREFIX = '[unwashproject]'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CACHES = {
